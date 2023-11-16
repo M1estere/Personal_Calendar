@@ -64,7 +64,9 @@ class NotesWindow(QMainWindow):
 
     def fill_notes_scroll_widget(self):
         self.clear_scroll()
-        user_notes = get_user_notes(self.user_id, f'{self.date.year()}-{self.date.month()}-{self.date.day()}')
+        month = '{:02}'.format(self.date.month())
+        day = '{:02}'.format(self.date.day())
+        user_notes = get_user_notes(self.user_id, f'{self.date.year()}-{month}-{day}')
         if user_notes is None or len(user_notes) < 1:
             return
 
