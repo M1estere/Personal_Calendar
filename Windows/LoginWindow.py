@@ -2,8 +2,9 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 
 from Windows.MainWindow import MainWindow
-from DatabaseController import try_log_user
-from Settings import *
+from database_controller import try_log_user
+from styles import *
+from settings import *
 
 
 class LoginWindow(QMainWindow):
@@ -16,12 +17,12 @@ class LoginWindow(QMainWindow):
         layout = QVBoxLayout()
 
         self.setWindowTitle('Login Window')
-
         self.setMaximumSize(QSize(LOGIN_WINDOW_WIDTH, LOGIN_WINDOW_HEIGHT))
         self.setMinimumSize(QSize(LOGIN_WINDOW_WIDTH, LOGIN_WINDOW_HEIGHT))
 
         self.label = QLabel(self)
         self.label.setText('LOGIN')
+        self.label.setStyleSheet(CENTERED_LABEL)
         self.label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.label.setAlignment(Qt.AlignCenter)
         self.label.setMaximumSize(QSize(LOGIN_WINDOW_WIDTH, 70))
@@ -69,7 +70,6 @@ class LoginWindow(QMainWindow):
         password = self.password_input_field.text()
 
         user_log_result = try_log_user(nickname, password)
-
         if user_log_result == -1:
             print('Login Failed, no such user in database!')
             self.reset_fields()

@@ -1,17 +1,14 @@
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 
-from DatabaseController import get_notes_for_day, get_notes_for_id
+from database_controller import get_notes_for_day, get_notes_for_id
 
 
 class CustomCalendar(QCalendarWidget):
     def __init__(self, parent=None):
         QCalendarWidget.__init__(self, parent)
+
         self.dates_colours_list = list()
-
-    def paintCell(self, painter, rect, date):
-        QCalendarWidget.paintCell(self, painter, rect, date)
-
         self.processed_ids = list()
 
         self.move_val_x = 12
@@ -25,6 +22,17 @@ class CustomCalendar(QCalendarWidget):
             'black': Qt.black,
             'white': Qt.white,
         }
+
+        self.res_list = list()
+
+    def paintCell(self, painter, rect, date):
+        QCalendarWidget.paintCell(self, painter, rect, date)
+
+        self.processed_ids = list()
+
+        self.move_val_x = 12
+        self.move_val_y = 9
+        self.i = 0
 
         self.res_list = get_notes_for_day(date, self.dates_colours_list)
         self.res_list = get_notes_for_id(self.user_id, self.res_list)

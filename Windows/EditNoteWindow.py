@@ -1,8 +1,8 @@
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 
-from DatabaseController import save_edited_note, delete_note
-from Settings import *
+from database_controller import save_edited_note, delete_note
+from settings import *
 
 
 class EditNoteWindow(QMainWindow):
@@ -17,7 +17,6 @@ class EditNoteWindow(QMainWindow):
         layout = QVBoxLayout()
 
         self.setWindowTitle(f"Edit Note {self.note['_id']}")
-
         self.setMaximumSize(QSize(NEW_NOTE_WINDOW_WIDTH, NEW_NOTE_WINDOW_HEIGHT))
         self.setMinimumSize(QSize(NEW_NOTE_WINDOW_WIDTH, NEW_NOTE_WINDOW_HEIGHT))
 
@@ -58,6 +57,8 @@ class EditNoteWindow(QMainWindow):
 
         widget.setLayout(layout)
         self.setCentralWidget(widget)
+
+        self.title_field.setFocus()
 
     def save_note(self):
         if len(self.title_field.text()) < 1:

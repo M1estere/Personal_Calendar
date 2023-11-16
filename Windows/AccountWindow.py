@@ -1,40 +1,80 @@
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 
-from Settings import *
-from DatabaseController import get_user_by_id, update_user
+from settings import *
+from styles import *
+from database_controller import get_user_by_id, update_user
+
 
 class AccountWindow(QMainWindow):
     def __init__(self, user_id):
         super().__init__()
 
-        widget = QWidget()
-        layout = QVBoxLayout()
-
         self.user_id = user_id
         self.user = get_user_by_id(self.user_id)
 
-        self.setWindowTitle(f"Edit Account")
+        widget = QWidget()
+        layout = QVBoxLayout()
 
+        self.setWindowTitle(f"Edit Account")
         self.setMaximumSize(QSize(ACCOUNT_INFO_WINDOW_WIDTH, ACCOUNT_INFO_WINDOW_HEIGHT))
         self.setMinimumSize(QSize(ACCOUNT_INFO_WINDOW_WIDTH, ACCOUNT_INFO_WINDOW_HEIGHT))
 
-        self.label = QLabel(self)
-        self.label.setText('Edit account info')
+        self.label = QLabel()
+        self.label.setText('EDIT ACCOUNT INFO')
+        self.label.setStyleSheet(CENTERED_LABEL)
+        self.label.setAlignment(Qt.AlignCenter)
+
+        username_layout = QHBoxLayout()
+        username_layout.addItem(QSpacerItem(0, 0, QSizePolicy.Expanding, QSizePolicy.Minimum))
+
+        username_label = QLabel()
+        username_label.setText('USERNAME')
+        username_label.setStyleSheet(REG_LABEL)
+        username_label.setMinimumSize(QSize(55, 20))
 
         self.username_input_field = QLineEdit()
         self.username_input_field.setPlaceholderText('Enter a nickname...')
+        self.username_input_field.setMinimumSize(QSize(215, 20))
+
+        username_layout.addWidget(username_label)
+        username_layout.addWidget(self.username_input_field)
+
+        initials_layout = QHBoxLayout()
+        initials_layout.addItem(QSpacerItem(0, 0, QSizePolicy.Expanding, QSizePolicy.Minimum))
+
+        initials_label = QLabel()
+        initials_label.setText('INITIALS')
+        initials_label.setStyleSheet(REG_LABEL)
+        initials_label.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
+        initials_label.setMinimumSize(QSize(55, 20))
 
         self.initials_input_field = QLineEdit()
-        self.initials_input_field.setPlaceholderText('Enter your name...')
+        self.initials_input_field.setPlaceholderText('Enter initials...')
+        self.initials_input_field.setMinimumSize(QSize(215, 20))
+
+        initials_layout.addWidget(initials_label)
+        initials_layout.addWidget(self.initials_input_field)
+
+        password_label = QLabel()
+        password_label.setText('PASSWORD')
+        password_label.setStyleSheet(REG_LABEL)
 
         self.show_password = False
         self.password_input_field = QLineEdit()
         self.password_input_field.setEchoMode(QLineEdit.Password)
         self.password_input_field.setPlaceholderText('Enter your password...')
+        self.password_input_field.setMinimumSize(QSize(120, 20))
 
-        self.show_password_button = QPushButton('Toggle Password')
+        self.show_password_button = QPushButton('Toggle')
         self.show_password_button.clicked.connect(self.toggle_password)
+
+        password_region_layout = QHBoxLayout()
+        password_region_layout.addItem(QSpacerItem(0, 0, QSizePolicy.Expanding, QSizePolicy.Minimum))
+
+        password_region_layout.addWidget(password_label)
+        password_region_layout.addWidget(self.password_input_field)
+        password_region_layout.addWidget(self.show_password_button)
 
         self.save_settings_button = QPushButton('Save')
         self.save_settings_button.clicked.connect(self.save_info)
@@ -48,11 +88,9 @@ class AccountWindow(QMainWindow):
 
         layout.addWidget(self.label)
 
-        layout.addWidget(self.username_input_field)
-        layout.addWidget(self.initials_input_field)
-        layout.addWidget(self.password_input_field)
-
-        layout.addWidget(self.show_password_button)
+        layout.addLayout(username_layout)
+        layout.addLayout(initials_layout)
+        layout.addLayout(password_region_layout)
 
         layout.addWidget(self.save_settings_button)
         layout.addWidget(self.reset_fields_button)
@@ -74,7 +112,6 @@ class AccountWindow(QMainWindow):
             return
 
         result = update_user(self.user_id, nickname, initials, password)
-
         if result == -1:
             print('User is not found!')
             return

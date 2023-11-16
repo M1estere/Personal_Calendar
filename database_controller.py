@@ -2,7 +2,6 @@ from PyQt5.QtCore import Qt
 from bson import ObjectId
 from pymongo import *
 
-
 database_name = 'main_db'
 
 client = MongoClient('mongodb://192.168.1.18:27017')
@@ -58,14 +57,14 @@ def add_note_to_days(user_id, note_id, creation_date, note_colour):
         return insert_note_for_date(user_id, note_id, note_colour, date_record)
 
     data_list = [
-            {
-                'note_1': {
-                    'user_id': ObjectId(user_id),
-                    'note_id': ObjectId(note_id),
-                    'note_colour': note_colour
-                },
-            }
-        ]
+        {
+            'note_1': {
+                'user_id': ObjectId(user_id),
+                'note_id': ObjectId(note_id),
+                'note_colour': note_colour
+            },
+        }
+    ]
 
     data_dict = {
         'date': creation_date,
@@ -320,3 +319,29 @@ def try_log_user(nickname, password):
         return -2
 
     return user_info['_id']
+
+
+def search_note(search_text, user_id, note_date):
+    note_date = note_date.toString(Qt.ISODate)
+    res_list = list()
+
+    print(f'Got search request:\n\tfor {search_text}\n\tfrom {user_id}\n\ton {note_date}')
+
+    notes_collection = database['notes_data']
+
+    try:
+        notes_collection.create_index([('title', 'text'), ('desc', 'text')])
+    except Exception as e:
+        print('Index already exists')
+        return res_list
+
+    t_list = notes_collection.find({'user_id': ObjectId(user_id), 'creation_date': note_date,
+                                    '$text': {
+                                        '$search': search_text
+                                    }
+                                    })
+
+    for note in t_list:
+        res_list.append(note)
+
+    return res_list

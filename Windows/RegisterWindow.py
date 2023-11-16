@@ -3,8 +3,9 @@ from PyQt5.QtWidgets import *
 
 from Windows.MainWindow import MainWindow
 from Windows.LoginWindow import LoginWindow
-from DatabaseController import add_user
-from Settings import *
+from database_controller import add_user
+from styles import *
+from settings import *
 
 
 class RegisterWindow(QMainWindow):
@@ -15,12 +16,12 @@ class RegisterWindow(QMainWindow):
         layout = QVBoxLayout()
 
         self.setWindowTitle('Register Window')
-
         self.setMaximumSize(QSize(LOGIN_WINDOW_WIDTH, LOGIN_WINDOW_HEIGHT))
         self.setMinimumSize(QSize(LOGIN_WINDOW_WIDTH, LOGIN_WINDOW_HEIGHT))
 
-        self.label = QLabel(self)
+        self.label = QLabel()
         self.label.setText('REGISTER')
+        self.label.setStyleSheet(CENTERED_LABEL)
         self.label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.label.setAlignment(Qt.AlignCenter)
         self.label.setMaximumSize(QSize(LOGIN_WINDOW_WIDTH, 70))

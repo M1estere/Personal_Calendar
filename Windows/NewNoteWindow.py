@@ -1,8 +1,8 @@
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 
-from DatabaseController import add_note
-from Settings import *
+from database_controller import add_note
+from settings import *
 
 
 class NewNoteWindow(QMainWindow):
@@ -17,7 +17,6 @@ class NewNoteWindow(QMainWindow):
         layout = QVBoxLayout()
 
         self.setWindowTitle('New Note')
-
         self.setMaximumSize(QSize(NEW_NOTE_WINDOW_WIDTH, NEW_NOTE_WINDOW_HEIGHT))
         self.setMinimumSize(QSize(NEW_NOTE_WINDOW_WIDTH, NEW_NOTE_WINDOW_HEIGHT))
 
@@ -50,6 +49,8 @@ class NewNoteWindow(QMainWindow):
 
         widget.setLayout(layout)
         self.setCentralWidget(widget)
+
+        self.title_field.setFocus()
 
     def create_colour_buttons(self):
         colour_list = ['red', 'green', 'blue', 'black', 'white']
