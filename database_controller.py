@@ -1,4 +1,4 @@
-from PyQt5.QtCore import Qt
+ from PyQt5.QtCore import Qt
 from bson import ObjectId
 from pymongo import *
 
@@ -6,10 +6,6 @@ database_name = 'main_db'
 
 client = MongoClient('mongodb://192.168.1.18:27017')
 database = client[database_name]
-
-test = database['first_collection']
-user_test = test.find_one({'parasha': 'lol'})
-
 
 def add_user(nickname, name, password):
     if get_user_info(nickname) is not None:
