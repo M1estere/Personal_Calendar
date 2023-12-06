@@ -1,5 +1,5 @@
-# Personal_Calendar
-## Simple personal calendar app made with Python, PyQt (GUI) and MongoDB (Server)
+# Personal Calendar
+## Simple personal calendar app that lets you save notes for every day, made with Python, PyQt (GUI) and MongoDB (Server)
 
 <p float="center">
   <img src="https://github.com/M1estere/Personal_Calendar/assets/58213582/b69d4cba-dabf-48a1-bdbd-ac909530e060" width="500" />
